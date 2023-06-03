@@ -9,3 +9,100 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum StatusMoto {
+  AVAILABLE
+  HIRED
+  MAINTAIN
+}
+
+enum StatusOrder {
+  CONFIRM
+  RENTING
+  PAID
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+model User {
+  id               Int       @id @default(autoincrement())
+  name             String
+  phone            String
+  email            String
+  role             Role
+  password         String
+  deleteFlg        Boolean
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  Comment          Comment[]
+  ReceiverOrder    Order[]   @relation("ReceiverOrder")
+  DeliveryManOrder Order[]   @relation("DeliveryManOrder")
+}
+
+model Moto {
+  id                Int        @id @default(autoincrement())
+  name              String
+  yearOfManufacture DateTime
+  producer          String
+  listThumbnail     String[]
+  color             String
+  licensePates      String
+  rentCost          Int
+  status            StatusMoto
+  idCategory        Int
+  deleteFlg         Boolean
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  categoryMoto      Category   @relation(fields: [idCategory], references: [id])
+  Order             Order[]
+  Comment           Comment[]
+}
+
+model Order {
+  id                   Int         @id @default(autoincrement())
+  rentalStartDate      DateTime
+  leaseEndDate         DateTime
+  statusOrder          StatusOrder
+  idMoto               Int
+  idUserReceiver       Int
+  idUserDeliveryMan    Int
+  createdAt            DateTime    @default(now())
+  updatedAt            DateTime    @updatedAt
+  UserReceiverOrder    User        @relation("ReceiverOrder", fields: [idUserReceiver], references: [id])
+  UserDeliveryManOrder User        @relation("DeliveryManOrder", fields: [idUserDeliveryMan], references: [id])
+  motoOrder            Moto        @relation(fields: [idMoto], references: [id])
+  userId               Int?
+}
+
+model Comment {
+  id             Int      @id @default(autoincrement())
+  motoId         Int
+  idUserComment  Int
+  contentComment String
+  star           Int
+  deleteFlg      Boolean
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  userComment    User     @relation(fields: [idUserComment], references: [id])
+  commentMoto    Moto     @relation(fields: [motoId], references: [id])
+}
+
+model Category {
+  id        Int      @id @default(autoincrement())
+  name      String
+  deleteFlg Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Moto      Moto[]
+}
+
+model Banner {
+  id        Int      @id @default(autoincrement())
+  thumbnail String
+  link      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

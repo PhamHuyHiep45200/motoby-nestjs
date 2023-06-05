@@ -4,6 +4,7 @@ import { GetUserDto } from './dto/getUser.dto';
 import { AuthUserDto } from './dto/auth-user.dto';
 import { CreateUserDto } from './dto/createUser.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { ChangePassWord } from './dto/change-password.dto';
 
 @Injectable()
 export class UserService {
@@ -35,7 +36,7 @@ export class UserService {
       data,
     };
   }
-  async getUserById(authUserDto: AuthUserDto) {
+  async getUserLogin(authUserDto: AuthUserDto) {
     const user = await this.prisma.user.findFirstOrThrow({
       where: { email: authUserDto.email, deleteFlg: false },
     });
@@ -43,6 +44,16 @@ export class UserService {
       return { status: 200, data: user };
     } else {
       return { message: 'Vui lòng kiểm tra lại thông tin tài khoản!' };
+    }
+  }
+  async getUserById(id: number) {
+    const user = await this.prisma.user.findFirstOrThrow({
+      where: { id, deleteFlg: false },
+    });
+    if (user) {
+      return { status: 200, data: user };
+    } else {
+      return { message: 'User không tồn tại hoặc đã bị khoá!!' };
     }
   }
   async createUser(createUserDto: CreateUserDto) {
@@ -93,5 +104,20 @@ export class UserService {
       return { status: 200, data };
     }
     return { message: 'Người dùng không tồn tại hoặc bị khóa' };
+  }
+  async changePassWord(id: number, changePassWord: ChangePassWord) {
+    const user = await this.prisma.user.findFirst({
+      where: { id },
+    });
+
+    if (user.password === changePassWord.passWord) {
+      const data = await this.prisma.user.update({
+        where: { id },
+        data: { password: changePassWord.newPassWord },
+      });
+      return { status: 200, data };
+    } else {
+      return { status: 400, message: 'Mật khẩu không chính xác!' };
+    }
   }
 }

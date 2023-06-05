@@ -14,6 +14,7 @@ import { GetUserDto } from './dto/getUser.dto';
 import { CreateUserDto } from './dto/createUser.dto';
 import { AuthUserDto } from './dto/auth-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { ChangePassWord } from './dto/change-password.dto';
 
 @ApiTags('user')
 @Controller('user')
@@ -48,7 +49,20 @@ export class UserController {
   }
 
   @Post('/login')
-  getUserById(@Body() authUserDto: AuthUserDto) {
-    return this.userService.getUserById(authUserDto);
+  userLogin(@Body() authUserDto: AuthUserDto) {
+    return this.userService.getUserLogin(authUserDto);
+  }
+
+  @Get('/:id')
+  getUserById(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.getUserById(id);
+  }
+
+  @Put('/change-password/:id')
+  async changePassWord(
+    @Param('id') id: number,
+    @Body() changePassWord: ChangePassWord,
+  ) {
+    return await this.userService.changePassWord(id, changePassWord);
   }
 }

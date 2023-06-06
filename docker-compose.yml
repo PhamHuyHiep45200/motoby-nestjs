@@ -9,8 +9,6 @@ services:
       - 5000:5000
     env_file:
       - .env
-    volumes:
-      - ./Documents/motoby-nestjs/project-name/nest/project:/app
   postgresdb:
     image: postgres:14
     container_name: postgresdb

@@ -43,20 +43,20 @@ model User {
 }
 
 model Moto {
-  id                Int        @id @default(autoincrement())
+  id                Int       @id @default(autoincrement())
   name              String
   yearOfManufacture DateTime
   producer          String
-  listThumbnail     String[]
+  listThumbnail     String
   color             String
   licensePates      String
   rentCost          Int
-  status            StatusMoto
-  idCategory        Int
+  quantity          Int
+  categoryId        Int
   deleteFlg         Boolean
-  createdAt         DateTime   @default(now())
-  updatedAt         DateTime   @updatedAt
-  categoryMoto      Category   @relation(fields: [idCategory], references: [id])
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  CategoryMoto      Category  @relation(fields: [categoryId], references: [id])
   Order             Order[]
   Comment           Comment[]
 }
@@ -69,6 +69,7 @@ model Order {
   idMoto               Int
   idUserReceiver       Int
   idUserDeliveryMan    Int
+  deleteFlg            Boolean
   createdAt            DateTime    @default(now())
   updatedAt            DateTime    @updatedAt
   UserReceiverOrder    User        @relation("ReceiverOrder", fields: [idUserReceiver], references: [id])

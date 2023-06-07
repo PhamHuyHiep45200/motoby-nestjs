@@ -1,0 +1,24 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "docker-compose.yml",
+        "use": "@vercel/docker-compose"
+      }
+    ],
+    "env": {
+      "POSTGRES_HOST": "@postgresql",
+      "POSTGRES_PORT": "5432",
+      "POSTGRES_USER": "otoby@gmail.com",
+      "POSTGRES_PASSWORD": "123456",
+      "POSTGRES_DB": "motoby_db"
+    },
+    "envSecrets": ["POSTGRES_HOST", "POSTGRES_USER", "POSTGRES_PASSWORD", "POSTGRES_DB"],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "docker-compose.yml"
+      }
+    ]
+  }
+  

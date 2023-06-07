@@ -7,9 +7,10 @@ import { CategoryModule } from './category/category.module';
 import { MotoModule } from './moto/moto.module';
 import { Module } from './.module';
 import { OrderModule } from './order/order.module';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
-  imports: [UserModule, BannerModule, CategoryModule, MotoModule, Module, OrderModule],
+  imports: [UserModule, BannerModule, CategoryModule, MotoModule, Module, OrderModule, UploadModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -17,8 +17,9 @@ enum StatusMoto {
 }
 
 enum StatusOrder {
-  CONFIRM
-  RENTING
+  INPROGRESS
+  CANCLE
+  RECEIVED
   PAID
 }
 
@@ -28,18 +29,17 @@ enum Role {
 }
 
 model User {
-  id               Int       @id @default(autoincrement())
-  name             String
-  phone            String
-  email            String
-  role             Role
-  password         String
-  deleteFlg        Boolean
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
-  Comment          Comment[]
-  ReceiverOrder    Order[]   @relation("ReceiverOrder")
-  DeliveryManOrder Order[]   @relation("DeliveryManOrder")
+  id        Int       @id @default(autoincrement())
+  name      String
+  phone     String
+  email     String
+  role      Role
+  password  String
+  deleteFlg Boolean
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Comment   Comment[]
+  Order     Order[]
 }
 
 model Moto {
@@ -63,20 +63,19 @@ model Moto {
 }
 
 model Order {
-  id                   Int         @id @default(autoincrement())
-  rentalStartDate      DateTime
-  leaseEndDate         DateTime
-  statusOrder          StatusOrder
-  idMoto               Int
-  idUserReceiver       Int
-  idUserDeliveryMan    Int
-  deleteFlg            Boolean
-  createdAt            DateTime    @default(now())
-  updatedAt            DateTime    @updatedAt
-  UserReceiverOrder    User        @relation("ReceiverOrder", fields: [idUserReceiver], references: [id])
-  UserDeliveryManOrder User        @relation("DeliveryManOrder", fields: [idUserDeliveryMan], references: [id])
-  motoOrder            Moto        @relation(fields: [idMoto], references: [id])
-  userId               Int?
+  id                Int         @id @default(autoincrement())
+  rentalStartDate   DateTime
+  leaseEndDate      DateTime
+  receivingAddress  DateTime
+  statusOrder       StatusOrder
+  idMoto            Int
+  idUserReceiver    Int
+  deleteFlg         Boolean
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  UserReceiverOrder User        @relation(fields: [idUserReceiver], references: [id])
+  motoOrder         Moto        @relation(fields: [idMoto], references: [id])
+  userId            Int?
 }
 
 model Comment {

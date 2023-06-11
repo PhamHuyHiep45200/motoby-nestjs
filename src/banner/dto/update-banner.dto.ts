@@ -11,9 +11,4 @@ export class UpdateBanner {
   @IsString()
   @IsOptional()
   thumbnail: string;
-
-  @ApiProperty()
-  @IsBoolean()
-  @IsOptional()
-  deleteFlg: boolean;
 }

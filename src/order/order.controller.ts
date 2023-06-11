@@ -34,13 +34,13 @@ export class OrderController {
     return this.orderService.updateOrder(id, updateOrderDto);
   }
 
-  @Put('/delete/:id')
-  deleteOrder(@Param('id', ParseIntPipe) id: number) {
-    return this.orderService.deleteOrder(id);
-  }
+  // @Put('/delete/:id')
+  // deleteOrder(@Param('id', ParseIntPipe) id: number) {
+  //   return this.orderService.deleteOrder(id);
+  // }
 
-  @Put('/un-delete/:id')
-  unDeleteOrder(@Param('id', ParseIntPipe) id: number) {
-    return this.orderService.unDeleteOrder(id);
-  }
+  // @Put('/un-delete/:id')
+  // unDeleteOrder(@Param('id', ParseIntPipe) id: number) {
+  //   return this.orderService.unDeleteOrder(id);
+  // }
 }

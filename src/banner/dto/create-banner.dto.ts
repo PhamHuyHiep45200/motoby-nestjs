@@ -9,9 +9,4 @@ export class CreateBanner {
   @ApiProperty()
   @IsString()
   thumbnail: string;
-
-  @ApiProperty()
-  @IsBoolean()
-  @IsOptional()
-  deleteFlg: boolean;
 }

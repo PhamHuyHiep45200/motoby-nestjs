@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsOptional } from 'class-validator';
 
 export class CreateMotoDto {
   @ApiProperty()
@@ -30,4 +31,8 @@ export class CreateMotoDto {
 
   @ApiProperty()
   categoryId: number;
+
+  @ApiProperty({ default: false })
+  @IsOptional()
+  deleteFlg?: boolean;
 }

@@ -4,13 +4,16 @@ CREATE TYPE "StatusMoto" AS ENUM ('AVAILABLE', 'HIRED', 'MAINTAIN');
 -- CreateEnum
 CREATE TYPE "StatusOrder" AS ENUM ('CONFIRM', 'RENTING', 'PAID');
 
+-- CreateEnum
+CREATE TYPE "Role" AS ENUM ('ADMIN', 'USER');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "phone" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "role" TEXT NOT NULL,
+    "role" "Role" NOT NULL,
     "password" TEXT NOT NULL,
     "deleteFlg" BOOLEAN NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -25,12 +28,13 @@ CREATE TABLE "Moto" (
     "name" TEXT NOT NULL,
     "yearOfManufacture" TIMESTAMP(3) NOT NULL,
     "producer" TEXT NOT NULL,
-    "listThumbnail" TEXT[],
+    "listThumbnail" TEXT NOT NULL,
     "color" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
     "licensePates" TEXT NOT NULL,
     "rentCost" INTEGER NOT NULL,
-    "status" "StatusMoto" NOT NULL,
-    "idCategory" INTEGER NOT NULL,
+    "quantity" INTEGER NOT NULL,
+    "categoryId" INTEGER NOT NULL,
     "deleteFlg" BOOLEAN NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -47,6 +51,7 @@ CREATE TABLE "Order" (
     "idMoto" INTEGER NOT NULL,
     "idUserReceiver" INTEGER NOT NULL,
     "idUserDeliveryMan" INTEGER NOT NULL,
+    "deleteFlg" BOOLEAN NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "userId" INTEGER,
@@ -72,6 +77,7 @@ CREATE TABLE "Comment" (
 CREATE TABLE "Category" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
+    "thumnail" TEXT NOT NULL,
     "deleteFlg" BOOLEAN NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -84,7 +90,6 @@ CREATE TABLE "Banner" (
     "id" SERIAL NOT NULL,
     "thumbnail" TEXT NOT NULL,
     "link" TEXT NOT NULL,
-    "deleteFlg" BOOLEAN NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -92,7 +97,7 @@ CREATE TABLE "Banner" (
 );
 
 -- AddForeignKey
-ALTER TABLE "Moto" ADD CONSTRAINT "Moto_idCategory_fkey" FOREIGN KEY ("idCategory") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Moto" ADD CONSTRAINT "Moto_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Order" ADD CONSTRAINT "Order_idUserReceiver_fkey" FOREIGN KEY ("idUserReceiver") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

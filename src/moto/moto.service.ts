@@ -18,6 +18,12 @@ export class MotoService {
     });
     return { status: 200, data };
   }
+  async getMotoById(id: number) {
+    const data = await this.prisma.moto.findFirstOrThrow({
+      where: { id },
+    });
+    return { status: 200, data };
+  }
   async createMoto(createMotoDto: CreateMotoDto) {
     const data = await this.prisma.moto.create({
       data: { ...createMotoDto, deleteFlg: false },

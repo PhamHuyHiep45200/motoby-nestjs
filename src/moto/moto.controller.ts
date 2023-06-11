@@ -22,6 +22,10 @@ export class MotoController {
   getMotoAll(@Query() getMotoDto: GetMotoDto) {
     return this.motoService.getMotoAll(getMotoDto);
   }
+  @Get('/:id')
+  getMotoById(@Param('id', ParseIntPipe) id: number) {
+    return this.motoService.getMotoById(id);
+  }
 
   @Post()
   createMoto(@Body() createMotoDto: CreateMotoDto) {

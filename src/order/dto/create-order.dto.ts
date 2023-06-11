@@ -6,7 +6,10 @@ export class CreateOrderDto {
   rentalStartDate: Date;
 
   @ApiProperty()
-  leaseEndDate: Date;
+  numberDateRental: number;
+
+  @ApiProperty()
+  receivingAddress: Date;
 
   @ApiProperty()
   statusOrder: StatusOrder;
@@ -16,7 +19,4 @@ export class CreateOrderDto {
 
   @ApiProperty()
   idUserReceiver: number;
-
-  @ApiProperty()
-  idUserDeliveryMan: number;
 }

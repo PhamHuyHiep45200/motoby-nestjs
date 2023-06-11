@@ -49,6 +49,7 @@ model Moto {
   producer          String
   listThumbnail     String
   color             String
+  description       String
   licensePates      String
   rentCost          Int
   quantity          Int
@@ -94,6 +95,7 @@ model Comment {
 model Category {
   id        Int      @id @default(autoincrement())
   name      String
+  thumnail  String
   deleteFlg Boolean
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

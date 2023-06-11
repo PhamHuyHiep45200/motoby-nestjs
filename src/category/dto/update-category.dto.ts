@@ -5,4 +5,8 @@ export class UpdateCategoryDto {
   @ApiProperty()
   @IsString()
   name: string;
+
+  @ApiProperty()
+  @IsString()
+  thumnail: string;
 }

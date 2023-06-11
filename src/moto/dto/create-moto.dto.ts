@@ -17,6 +17,9 @@ export class CreateMotoDto {
   color: string;
 
   @ApiProperty()
+  description: string;
+
+  @ApiProperty()
   licensePates: string;
 
   @ApiProperty()

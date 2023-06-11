@@ -20,6 +20,10 @@ export class UpdateMotoDto {
 
   @ApiProperty()
   @IsOptional()
+  description: string;
+
+  @ApiProperty()
+  @IsOptional()
   licensePates: string;
 
   @ApiProperty()

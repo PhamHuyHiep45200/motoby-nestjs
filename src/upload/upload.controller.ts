@@ -35,6 +35,6 @@ export class UploadController {
     },
   })
   uploadFile(@UploadedFile() file: Express.Multer.File) {
-    console.log(file);
+    return file.originalname;
   }
 }

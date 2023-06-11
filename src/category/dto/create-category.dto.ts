@@ -6,6 +6,10 @@ export class CreateCategoryDto {
   @IsString()
   name: string;
 
+  @ApiProperty()
+  @IsString()
+  thumnail: string;
+
   @ApiProperty({ default: false })
   @IsOptional()
   deleteFlg?: boolean;

@@ -10,19 +10,35 @@ export class MotoService {
   async getMotoAll(getMotoDto: GetMotoDto) {
     const data = await this.prisma.moto.findMany({
       where: {
-        deleteFlg: false,
+        // deleteFlg: false,
         name: {
           contains: getMotoDto.name,
         },
+      },
+      orderBy: {
+        createdAt: 'asc',
       },
     });
     return { status: 200, data };
   }
   async getMotoById(id: number) {
+    const motoOrder = await this.prisma.moto.findMany({
+      where: { id },
+      include: {
+        Order: {
+          where: {
+            statusOrder: 'RECEIVED',
+          },
+        },
+      },
+    });
     const data = await this.prisma.moto.findFirstOrThrow({
       where: { id },
     });
-    return { status: 200, data };
+    return {
+      status: 200,
+      data: { ...data, quantityMoto: data.quantity - motoOrder.length },
+    };
   }
   async createMoto(createMotoDto: CreateMotoDto) {
     const data = await this.prisma.moto.create({

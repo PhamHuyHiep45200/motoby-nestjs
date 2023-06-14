@@ -66,8 +66,9 @@ model Order {
   id                Int         @id @default(autoincrement())
   rentalStartDate   DateTime
   leaseEndDate      DateTime
-  receivingAddress  DateTime
+  receivingAddress  String
   statusOrder       StatusOrder
+  allMoney          Int
   idMoto            Int
   idUserReceiver    Int
   deleteFlg         Boolean

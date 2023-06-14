@@ -9,7 +9,10 @@ export class CreateOrderDto {
   numberDateRental: number;
 
   @ApiProperty()
-  receivingAddress: Date;
+  allMoney: number;
+
+  @ApiProperty()
+  receivingAddress: string;
 
   @ApiProperty()
   statusOrder: StatusOrder;

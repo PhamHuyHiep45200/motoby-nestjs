@@ -21,6 +21,11 @@ export class OrderController {
     return this.orderService.getOrderAll();
   }
 
+  @Get('/:id')
+  getOrderById(@Param('id', ParseIntPipe) id: number) {
+    return this.orderService.getOrderById(id);
+  }
+
   @Post()
   createOrder(@Body() createUserDto: CreateOrderDto) {
     return this.orderService.createOrder(createUserDto);

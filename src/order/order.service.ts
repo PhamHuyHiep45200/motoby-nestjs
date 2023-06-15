@@ -28,6 +28,9 @@ export class OrderService {
       include: {
         motoOrder: true,
       },
+      orderBy: {
+        createdAt: 'desc',
+      },
     });
     return { status: 200, data };
   }
@@ -49,7 +52,7 @@ export class OrderService {
         id: createOrderDto.idMoto,
       },
     });
-    if (motoOrder < moto) {
+    if (motoOrder >= moto) {
       const leaseEndDate = moment(createOrderDto.rentalStartDate)
         .add(5, 'days')
         .toISOString();

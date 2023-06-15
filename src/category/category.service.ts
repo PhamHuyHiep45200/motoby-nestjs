@@ -29,6 +29,25 @@ export class CategoryService {
           contains: getCategoryDto.name,
         },
       },
+      include: {
+        Moto: true,
+      },
+      orderBy: { updatedAt: 'desc' },
+    });
+    return {
+      status: 200,
+      data,
+    };
+  }
+  async getCategoryById(id: number) {
+    const data = await this.prisma.category.findFirstOrThrow({
+      where: {
+        deleteFlg: false,
+        id,
+      },
+      include: {
+        Moto: true,
+      },
       orderBy: { updatedAt: 'desc' },
     });
     return {

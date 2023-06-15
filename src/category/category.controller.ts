@@ -18,7 +18,7 @@ import { ApiTags } from '@nestjs/swagger';
 @Controller('category')
 export class CategoryController {
   constructor(private categoryService: CategoryService) {}
-  @Get()
+  @Get('/all')
   getCategoryAll(@Query() getCategoryDto: GetCategoryDto) {
     return this.categoryService.getCategoryAll(getCategoryDto);
   }
@@ -26,6 +26,11 @@ export class CategoryController {
   @Get()
   getCategory(@Query() getCategoryDto: GetCategoryDto) {
     return this.categoryService.getCategory(getCategoryDto);
+  }
+
+  @Get('/:id')
+  getCategoryById(@Param('id') id: number) {
+    return this.categoryService.getCategoryById(id);
   }
 
   @Post()

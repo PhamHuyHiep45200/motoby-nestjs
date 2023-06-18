@@ -29,21 +29,22 @@ enum Role {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  name      String
-  phone     String
-  email     String
-  role      Role
-  password  String
-  deleteFlg Boolean
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  Comment   Comment[]
-  Order     Order[]
+  id            Int       @id @default(autoincrement())
+  name          String
+  phone         String
+  email         String
+  role          Role
+  password      String
+  deleteFlg     Boolean
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  Order         Order[]
+  userSend      Message[] @relation("user_send")
+  userRecipient Message[] @relation("user_recipient")
 }
 
 model Moto {
-  id                Int       @id @default(autoincrement())
+  id                Int      @id @default(autoincrement())
   name              String
   yearOfManufacture DateTime
   producer          String
@@ -55,11 +56,10 @@ model Moto {
   quantity          Int
   categoryId        Int
   deleteFlg         Boolean
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
-  CategoryMoto      Category  @relation(fields: [categoryId], references: [id])
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  CategoryMoto      Category @relation(fields: [categoryId], references: [id])
   Order             Order[]
-  Comment           Comment[]
 }
 
 model Order {
@@ -71,6 +71,8 @@ model Order {
   allMoney          Int
   idMoto            Int
   idUserReceiver    Int
+  star              Int
+  comment           String
   deleteFlg         Boolean
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt
@@ -79,17 +81,16 @@ model Order {
   userId            Int?
 }
 
-model Comment {
-  id             Int      @id @default(autoincrement())
-  motoId         Int
-  idUserComment  Int
-  contentComment String
-  star           Int
-  deleteFlg      Boolean
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  userComment    User     @relation(fields: [idUserComment], references: [id])
-  commentMoto    Moto     @relation(fields: [motoId], references: [id])
+model Message {
+  id                Int      @id @default(autoincrement())
+  idPersonSend      Int
+  idPersonRecipient Int
+  message           String
+  deleteFlg         Boolean
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  userSend          User     @relation("user_send", fields: [idPersonSend], references: [id])
+  userRecipient     User     @relation("user_recipient", fields: [idPersonRecipient], references: [id])
 }
 
 model Category {

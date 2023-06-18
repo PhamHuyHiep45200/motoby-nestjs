@@ -3,6 +3,7 @@ import { PrismaService } from 'src/prisma.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import * as moment from 'moment';
+import { Role } from '@prisma/client';
 
 @Injectable()
 export class OrderService {
@@ -61,6 +62,8 @@ export class OrderService {
         data: {
           ...createOrderDto,
           leaseEndDate,
+          star: 0,
+          comment: '',
           deleteFlg: false,
           statusOrder: 'INPROGRESS',
         },
@@ -72,14 +75,23 @@ export class OrderService {
     }
   }
   async updateOrder(id: number, updateOrderDto: UpdateOrderDto) {
-    const data: any = await this.prisma.order.update({
-      where: { id },
-      data: updateOrderDto,
+    const user = this.prisma.user.findFirst({
+      where: { id: updateOrderDto.idUser },
     });
-    if (updateOrderDto.statusOrder === 'RECEIVED') {
-      data.statusSteps = 'PAID';
+    if (user && (await user).role === 'ADMIN') {
+      const data: any = await this.prisma.order.update({
+        where: { id },
+        data: {
+          statusOrder: updateOrderDto.statusOrder,
+        },
+      });
+      if (updateOrderDto.statusOrder === 'RECEIVED') {
+        data.statusSteps = 'PAID';
+      }
+      return { status: 200, data };
+    } else {
+      return { message: 'Bạn không có quyền thực hiện hành vi này' };
     }
-    return { status: 200, data };
   }
   // async deleteOrder(id: number) {
   //   const data = await this.prisma.order.update({

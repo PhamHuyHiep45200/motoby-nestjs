@@ -13,6 +13,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { GetMotoDto } from './dto/get-moto.dto';
 import { CreateMotoDto } from './dto/create-moto.dto';
 import { UpdateMotoDto } from './dto/update-moto.dto';
+import { UpdateRateMotoDto } from './dto/rate-moto.dto';
 
 @ApiTags('moto')
 @Controller('moto')
@@ -25,6 +26,24 @@ export class MotoController {
   @Get('/:id')
   getMotoById(@Param('id', ParseIntPipe) id: number) {
     return this.motoService.getMotoById(id);
+  }
+
+  @Get('/get-star/order')
+  getMotoByStar() {
+    return this.motoService.getMotoByStar();
+  }
+
+  @Get('/get-paids/order')
+  getMotoPaid() {
+    return this.motoService.getMotoPaid();
+  }
+
+  @Put('/rate/:id')
+  rateMoto(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() rateMotoDto: UpdateRateMotoDto,
+  ) {
+    return this.motoService.updateRateMoto(id, rateMotoDto);
   }
 
   @Post()

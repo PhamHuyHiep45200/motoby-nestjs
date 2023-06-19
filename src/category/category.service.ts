@@ -30,7 +30,15 @@ export class CategoryService {
         },
       },
       include: {
-        Moto: true,
+        Moto: {
+          include: {
+            Order: {
+              where: {
+                statusOrder: 'PAID',
+              },
+            },
+          },
+        },
       },
       orderBy: { updatedAt: 'desc' },
     });
@@ -46,7 +54,15 @@ export class CategoryService {
         id,
       },
       include: {
-        Moto: true,
+        Moto: {
+          include: {
+            Order: {
+              where: {
+                statusOrder: 'PAID',
+              },
+            },
+          },
+        },
       },
       orderBy: { updatedAt: 'desc' },
     });

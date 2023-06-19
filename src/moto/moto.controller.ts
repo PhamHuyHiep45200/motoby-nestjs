@@ -23,6 +23,10 @@ export class MotoController {
   getMotoAll(@Query() getMotoDto: GetMotoDto) {
     return this.motoService.getMotoAll(getMotoDto);
   }
+  @Get('/search')
+  getMotoSearch(@Query() getMotoDto: GetMotoDto) {
+    return this.motoService.getMotoAllSearch(getMotoDto);
+  }
   @Get('/:id')
   getMotoById(@Param('id', ParseIntPipe) id: number) {
     return this.motoService.getMotoById(id);
@@ -36,6 +40,11 @@ export class MotoController {
   @Get('/get-paids/order')
   getMotoPaid() {
     return this.motoService.getMotoPaid();
+  }
+
+  @Get('/get-moto-new/home')
+  getMotoNew() {
+    return this.motoService.getMotoNew();
   }
 
   @Put('/rate/:id')

@@ -31,6 +31,8 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('chat')
   handleMessage(socket: Socket, message: string) {
     // Xử lý tin nhắn chat
-    this.server.emit('chat', message);
+    this.server.on('sendchat', (message) => {
+      this.server.emit('chat', message);
+    });
   }
 }

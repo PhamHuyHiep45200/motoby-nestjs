@@ -8,6 +8,8 @@ import { UploadModule } from './upload/upload.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { ChatGateway } from './chat.gateway';
 import { ChatModule } from './chat/chat.module';
+import { PrismaModule } from './prisma.module';
+import { NotifyModule } from './notify/notify.module';
 
 @Module({
   imports: [
@@ -17,11 +19,13 @@ import { ChatModule } from './chat/chat.module';
     MotoModule,
     OrderModule,
     UploadModule,
+    NotifyModule,
+    PrismaModule,
     MulterModule.register({
       dest: './uploads',
     }),
     ChatModule,
   ],
-  providers: [],
+  providers: [ChatGateway],
 })
 export class AppModule {}

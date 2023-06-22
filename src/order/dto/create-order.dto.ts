@@ -12,6 +12,9 @@ export class CreateOrderDto {
   allMoney: number;
 
   @ApiProperty()
+  idCard: string;
+
+  @ApiProperty()
   receivingAddress: string;
 
   @ApiProperty()

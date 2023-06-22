@@ -4,7 +4,6 @@ import { GetMotoDto } from './dto/get-moto.dto';
 import { CreateMotoDto } from './dto/create-moto.dto';
 import { UpdateMotoDto } from './dto/update-moto.dto';
 import { UpdateRateMotoDto } from './dto/rate-moto.dto';
-import { async } from 'rxjs';
 
 @Injectable()
 export class MotoService {

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { ChatController } from './chat.controller';
 import { PrismaModule } from 'src/prisma.module';
+import { ChatController } from './chat.controller';
 
 @Module({
   controllers: [ChatController],

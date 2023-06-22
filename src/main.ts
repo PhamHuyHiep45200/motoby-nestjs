@@ -9,7 +9,15 @@ import { IoAdapter } from '@nestjs/platform-socket.io';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.enableCors();
+  // app.enableCors();
+  app.enableCors({
+    origin: [
+      'https://motobike-danang-app.vercel.app/',
+      'http://localhost:3000/',
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type'],
+  });
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.useWebSocketAdapter(new IoAdapter(app));
   app.useStaticAssets(join(__dirname, '../uploads'));

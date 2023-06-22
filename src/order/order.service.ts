@@ -3,7 +3,6 @@ import { PrismaService } from 'src/prisma.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import * as moment from 'moment';
-import { Role } from '@prisma/client';
 
 @Injectable()
 export class OrderService {

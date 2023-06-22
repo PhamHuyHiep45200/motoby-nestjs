@@ -41,6 +41,7 @@ model User {
   Order         Order[]
   userSend      Message[] @relation("user_send")
   userRecipient Message[] @relation("user_recipient")
+  Notify        Notify[]
 }
 
 model Moto {
@@ -60,6 +61,7 @@ model Moto {
   updatedAt         DateTime @updatedAt
   CategoryMoto      Category @relation(fields: [categoryId], references: [id])
   Order             Order[]
+  Notify            Notify[]
 }
 
 model Order {
@@ -69,6 +71,27 @@ model Order {
   receivingAddress  String
   statusOrder       StatusOrder
   allMoney          Int
+  idCard            String
+  idMoto            Int
+  idUserReceiver    Int
+  star              Int
+  comment           String
+  deleteFlg         Boolean
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  UserReceiverOrder User        @relation(fields: [idUserReceiver], references: [id])
+  motoOrder         Moto        @relation(fields: [idMoto], references: [id])
+  userId            Int?
+}
+
+model Notify {
+  id                Int         @id @default(autoincrement())
+  rentalStartDate   DateTime
+  leaseEndDate      DateTime
+  receivingAddress  String
+  statusOrder       StatusOrder
+  allMoney          Int
+  idCard            String
   idMoto            Int
   idUserReceiver    Int
   star              Int

@@ -10,7 +10,7 @@ import * as moment from 'moment';
 import { UpdateOrderDto } from './order/dto/update-order.dto';
 import { SendChat } from './chat/dto/send-chat.dto';
 
-@WebSocketGateway(5001, { cors: true })
+@WebSocketGateway({ port: 5000, cors: true })
 export class ChatGateway {
   constructor(private prisma: PrismaService) {}
   @WebSocketServer()

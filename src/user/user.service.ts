@@ -46,6 +46,14 @@ export class UserService {
       return { message: 'Vui lòng kiểm tra lại thông tin tài khoản!' };
     }
   }
+  async getAdmin() {
+    const data = await this.prisma.user.findFirst({
+      where: {
+        role: 'ADMIN',
+      },
+    });
+    return { status: 200, data };
+  }
   async getUserById(id: number) {
     const user = await this.prisma.user.findFirstOrThrow({
       where: { id, deleteFlg: false },

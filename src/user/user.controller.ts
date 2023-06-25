@@ -20,9 +20,14 @@ import { ChangePassWord } from './dto/change-password.dto';
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
-  @Get()
+  @Get('/')
   getAllUsers(@Query() queryUser: GetUserDto) {
     return this.userService.getAllUsers(queryUser);
+  }
+
+  @Get('/admin')
+  getAdmin() {
+    return this.userService.getAdmin();
   }
 
   @Post()

@@ -74,7 +74,11 @@ export class ChatGateway {
       },
     });
     const data = await this.prisma.message.create({
-      data: { ...senChat, idPersonRecipient: admin.id, deleteFlg: false },
+      data: {
+        ...senChat,
+        idPersonRecipient: senChat?.idPersonRecipient ?? admin.id,
+        deleteFlg: false,
+      },
     });
     this.server.emit('chat', data);
   }

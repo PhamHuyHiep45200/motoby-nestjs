@@ -87,8 +87,8 @@ export class OrderService {
     if (user && user.role === 'ADMIN') {
       let update: any = {};
       if (updateOrderDto.statusOrder == 'PAID') {
-        const dayNumber = moment(orderId.rentalStartDate, 'DD-MM-YYYY').diff(
-          moment(new Date(), 'DD-MM-YYYY'),
+        const dayNumber = moment(new Date(), 'DD-MM-YYYY').diff(
+          moment(orderId.rentalStartDate, 'DD-MM-YYYY'),
           'days',
         );
         let money = 0;

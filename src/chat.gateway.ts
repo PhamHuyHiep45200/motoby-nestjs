@@ -1,5 +1,7 @@
 import {
   MessageBody,
+  OnGatewayConnection,
+  OnGatewayDisconnect,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
@@ -11,11 +13,16 @@ import { UpdateOrderDto } from './order/dto/update-order.dto';
 import { SendChat } from './chat/dto/send-chat.dto';
 
 @WebSocketGateway({ port: 5000, cors: true })
-export class ChatGateway {
+export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   constructor(private prisma: PrismaService) {}
   @WebSocketServer()
   server;
-
+  handleDisconnect(client: any) {
+    console.log('Client diss:', client.id);
+  }
+  handleConnection(client: any) {
+    console.log('Client connected:', client.id);
+  }
   @SubscribeMessage('createOrder')
   async handleCreateOrderNoti(@MessageBody() notify: CreateOrderDto) {
     delete notify.numberDateRental;
@@ -68,6 +75,7 @@ export class ChatGateway {
 
   @SubscribeMessage('sendChat')
   async handleSendChat(@MessageBody() senChat: SendChat) {
+    console.log(senChat);
     const admin = await this.prisma.user.findFirst({
       where: {
         role: 'ADMIN',

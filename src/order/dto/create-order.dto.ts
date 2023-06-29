@@ -18,6 +18,15 @@ export class CreateOrderDto {
   receivingAddress: string;
 
   @ApiProperty()
+  giveCarAddress: string;
+
+  @ApiProperty()
+  licensePlates: string;
+
+  @ApiProperty()
+  depositPrice: number;
+
+  @ApiProperty()
   statusOrder: StatusOrder;
 
   @ApiProperty()

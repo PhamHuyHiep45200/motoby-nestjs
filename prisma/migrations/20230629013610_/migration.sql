@@ -2,7 +2,7 @@
 CREATE TYPE "StatusMoto" AS ENUM ('AVAILABLE', 'HIRED', 'MAINTAIN');
 
 -- CreateEnum
-CREATE TYPE "StatusOrder" AS ENUM ('CONFIRM', 'RENTING', 'PAID');
+CREATE TYPE "StatusOrder" AS ENUM ('INPROGRESS', 'CANCLE', 'RECEIVED', 'PAID');
 
 -- CreateEnum
 CREATE TYPE "Role" AS ENUM ('ADMIN', 'USER');
@@ -32,6 +32,8 @@ CREATE TABLE "Moto" (
     "color" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "licensePates" TEXT NOT NULL,
+    "licensePlates" TEXT NOT NULL,
+    "deposit" INTEGER NOT NULL,
     "rentCost" INTEGER NOT NULL,
     "quantity" INTEGER NOT NULL,
     "categoryId" INTEGER NOT NULL,
@@ -47,10 +49,16 @@ CREATE TABLE "Order" (
     "id" SERIAL NOT NULL,
     "rentalStartDate" TIMESTAMP(3) NOT NULL,
     "leaseEndDate" TIMESTAMP(3) NOT NULL,
+    "receivingAddress" TEXT NOT NULL,
+    "giveCarAddress" TEXT NOT NULL,
+    "depositPrice" INTEGER NOT NULL,
     "statusOrder" "StatusOrder" NOT NULL,
+    "allMoney" INTEGER NOT NULL,
+    "idCard" TEXT NOT NULL,
     "idMoto" INTEGER NOT NULL,
     "idUserReceiver" INTEGER NOT NULL,
-    "idUserDeliveryMan" INTEGER NOT NULL,
+    "star" INTEGER NOT NULL,
+    "comment" TEXT NOT NULL,
     "deleteFlg" BOOLEAN NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -60,17 +68,37 @@ CREATE TABLE "Order" (
 );
 
 -- CreateTable
-CREATE TABLE "Comment" (
+CREATE TABLE "Notify" (
     "id" SERIAL NOT NULL,
-    "motoId" INTEGER NOT NULL,
-    "idUserComment" INTEGER NOT NULL,
-    "contentComment" TEXT NOT NULL,
+    "rentalStartDate" TIMESTAMP(3) NOT NULL,
+    "leaseEndDate" TIMESTAMP(3) NOT NULL,
+    "receivingAddress" TEXT NOT NULL,
+    "statusOrder" "StatusOrder" NOT NULL,
+    "allMoney" INTEGER NOT NULL,
+    "idCard" TEXT NOT NULL,
+    "idMoto" INTEGER NOT NULL,
+    "idUserReceiver" INTEGER NOT NULL,
     "star" INTEGER NOT NULL,
+    "comment" TEXT NOT NULL,
+    "deleteFlg" BOOLEAN NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "userId" INTEGER,
+
+    CONSTRAINT "Notify_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Message" (
+    "id" SERIAL NOT NULL,
+    "idPersonSend" INTEGER NOT NULL,
+    "idPersonRecipient" INTEGER NOT NULL,
+    "message" TEXT NOT NULL,
     "deleteFlg" BOOLEAN NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "Comment_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Message_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -103,13 +131,16 @@ ALTER TABLE "Moto" ADD CONSTRAINT "Moto_categoryId_fkey" FOREIGN KEY ("categoryI
 ALTER TABLE "Order" ADD CONSTRAINT "Order_idUserReceiver_fkey" FOREIGN KEY ("idUserReceiver") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Order" ADD CONSTRAINT "Order_idUserDeliveryMan_fkey" FOREIGN KEY ("idUserDeliveryMan") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "Order" ADD CONSTRAINT "Order_idMoto_fkey" FOREIGN KEY ("idMoto") REFERENCES "Moto"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Comment" ADD CONSTRAINT "Comment_idUserComment_fkey" FOREIGN KEY ("idUserComment") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Notify" ADD CONSTRAINT "Notify_idUserReceiver_fkey" FOREIGN KEY ("idUserReceiver") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Comment" ADD CONSTRAINT "Comment_motoId_fkey" FOREIGN KEY ("motoId") REFERENCES "Moto"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Notify" ADD CONSTRAINT "Notify_idMoto_fkey" FOREIGN KEY ("idMoto") REFERENCES "Moto"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Message" ADD CONSTRAINT "Message_idPersonSend_fkey" FOREIGN KEY ("idPersonSend") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Message" ADD CONSTRAINT "Message_idPersonRecipient_fkey" FOREIGN KEY ("idPersonRecipient") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

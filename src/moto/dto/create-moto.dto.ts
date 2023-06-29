@@ -27,7 +27,7 @@ export class CreateMotoDto {
   licensePlates: string;
 
   @ApiProperty()
-  discount: number;
+  deposit: number;
 
   @ApiProperty()
   rentCost: number;

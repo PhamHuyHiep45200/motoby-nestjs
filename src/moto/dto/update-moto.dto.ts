@@ -32,7 +32,7 @@ export class UpdateMotoDto {
 
   @ApiProperty()
   @IsOptional()
-  discount: number;
+  deposit: number;
 
   @ApiProperty()
   @IsOptional()

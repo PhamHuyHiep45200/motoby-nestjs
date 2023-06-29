@@ -9,8 +9,4 @@ export class UpdateOrderDto {
   @ApiProperty()
   @IsOptional()
   statusOrder: StatusOrder;
-
-  @ApiProperty()
-  @IsOptional()
-  allMoney: number;
 }

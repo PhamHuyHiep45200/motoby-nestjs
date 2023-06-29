@@ -54,7 +54,7 @@ model Moto {
   description       String
   licensePates      String
   licensePlates     String
-  discount          Int
+  deposit           Int
   rentCost          Int
   quantity          Int
   categoryId        Int

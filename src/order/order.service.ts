@@ -9,9 +9,6 @@ export class OrderService {
   constructor(private prisma: PrismaService) {}
   async getOrderAll() {
     const data = await this.prisma.order.findMany({
-      // where: {
-      //   deleteFlg: false,
-      // },
       include: {
         motoOrder: true,
         UserReceiverOrder: true,
@@ -26,7 +23,11 @@ export class OrderService {
         deleteFlg: false,
       },
       include: {
-        motoOrder: true,
+        motoOrder: {
+          include: {
+            CategoryMoto: true,
+          },
+        },
       },
       orderBy: {
         createdAt: 'desc',
@@ -74,14 +75,40 @@ export class OrderService {
     }
   }
   async updateOrder(id: number, updateOrderDto: UpdateOrderDto) {
-    const user = this.prisma.user.findFirst({
+    const user = await this.prisma.user.findFirst({
       where: { id: updateOrderDto.idUser },
     });
-    if (user && (await user).role === 'ADMIN') {
+    const orderId = await this.prisma.order.findFirst({
+      where: { id },
+      include: {
+        motoOrder: true,
+      },
+    });
+    if (user && user.role === 'ADMIN') {
+      let update: any = {};
+      if (updateOrderDto.statusOrder == 'PAID') {
+        const dayNumber = moment(orderId.rentalStartDate, 'DD-MM-YYYY').diff(
+          moment(new Date(), 'DD-MM-YYYY'),
+          'days',
+        );
+        let money = 0;
+        if (dayNumber === 0 || dayNumber === 1) {
+          money = orderId.motoOrder.rentCost;
+        } else if (dayNumber > 1) {
+          money = orderId.motoOrder.rentCost * dayNumber;
+        } else {
+          money = 0;
+        }
+        update = {
+          leaseEndDate: new Date(),
+          allMoney: money,
+        };
+      }
       const data: any = await this.prisma.order.update({
         where: { id },
         data: {
           statusOrder: updateOrderDto.statusOrder,
+          ...update,
         },
       });
       if (updateOrderDto.statusOrder === 'RECEIVED') {
@@ -92,22 +119,4 @@ export class OrderService {
       return { message: 'Bạn không có quyền thực hiện hành vi này' };
     }
   }
-  // async deleteOrder(id: number) {
-  //   const data = await this.prisma.order.update({
-  //     where: { id },
-  //     data: {
-  //       deleteFlg: true,
-  //     },
-  //   });
-  //   return { status: 200, data };
-  // }
-  // async unDeleteOrder(id: number) {
-  //   const data = await this.prisma.order.update({
-  //     where: { id },
-  //     data: {
-  //       deleteFlg: false,
-  //     },
-  //   });
-  //   return { status: 200, data };
-  // }
 }

@@ -21,9 +21,6 @@ export class CreateOrderDto {
   giveCarAddress: string;
 
   @ApiProperty()
-  licensePlates: string;
-
-  @ApiProperty()
   depositPrice: number;
 
   @ApiProperty()

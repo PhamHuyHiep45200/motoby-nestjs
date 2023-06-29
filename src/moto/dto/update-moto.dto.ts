@@ -28,6 +28,14 @@ export class UpdateMotoDto {
 
   @ApiProperty()
   @IsOptional()
+  licensePlates: string;
+
+  @ApiProperty()
+  @IsOptional()
+  discount: number;
+
+  @ApiProperty()
+  @IsOptional()
   rentCost: number;
 
   @ApiProperty()

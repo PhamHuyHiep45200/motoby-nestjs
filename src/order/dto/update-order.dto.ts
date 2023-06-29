@@ -11,11 +11,6 @@ export class UpdateOrderDto {
   statusOrder: StatusOrder;
 
   @ApiProperty()
-  giveCarAddress: string;
-
-  @ApiProperty()
-  licensePlates: string;
-
-  @ApiProperty()
-  depositPrice: number;
+  @IsOptional()
+  allMoney: number;
 }

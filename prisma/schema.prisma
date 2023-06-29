@@ -53,6 +53,8 @@ model Moto {
   color             String
   description       String
   licensePates      String
+  licensePlates     String
+  discount          Int
   rentCost          Int
   quantity          Int
   categoryId        Int
@@ -70,7 +72,6 @@ model Order {
   leaseEndDate      DateTime
   receivingAddress  String
   giveCarAddress    String
-  licensePlates     String
   depositPrice      Int
   statusOrder       StatusOrder
   allMoney          Int

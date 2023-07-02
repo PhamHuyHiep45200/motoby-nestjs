@@ -138,7 +138,10 @@ export class MotoService {
     });
     return {
       status: 200,
-      data: listStar.sort((a, b) => b.starMoto - a.starMoto).splice(0, 11),
+      data: listStar
+        .filter((e) => e.starMoto)
+        .sort((a, b) => b.starMoto - a.starMoto)
+        .splice(0, 11),
     };
   }
   async getMotoPaid() {

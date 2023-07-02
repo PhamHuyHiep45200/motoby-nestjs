@@ -87,7 +87,7 @@ export class MotoService {
           return a + b.star;
         }
         return a;
-      }, 0) / listMotoStar.Order.length;
+      }, 0) / listMotoStar.Order.filter((e) => e.star !== 0).length;
     const rate = await this.prisma.moto.findFirst({
       where: { id },
       include: {

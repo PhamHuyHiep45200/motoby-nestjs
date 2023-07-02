@@ -133,7 +133,7 @@ export class MotoService {
               return a + b.star;
             }
             return a;
-          }, 0) / moto.Order.length,
+          }, 0) / moto.Order.filter((e) => e.star !== 0).length,
       };
     });
     return {
